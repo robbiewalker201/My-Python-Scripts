@@ -1,2 +1,3 @@
 # My-Scripts
-Repository containing my scripts
+
+Repository containing all scripts completed and in work. Different scripts are seperated via branches
