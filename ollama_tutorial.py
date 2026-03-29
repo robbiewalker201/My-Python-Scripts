@@ -5,6 +5,7 @@ Eli the Computer Guy - Intro to AI LLM Systems with Ollama and Python
 # Import relevant Ollama modules
 from ollama import chat
 from ollama import ChatResponse
+from bs4 import BeautifulSoup
 # Requests is a library for making HTTP requests in Python to websites and APIs
 # with Requests you can make GET and POST API requests to retrieve data from websites and APIs, or send data to them.
 import requests
@@ -87,4 +88,51 @@ def lesson_6():
     
     return 0
 
-lesson_6()
+#lesson_6()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+                    Lesson 7 - Webpage Scraping
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+def lesson_7():
+
+    injection = "Reply in comedic style. Reply in no more than 60 words"
+
+    page = requests.get("https://arstechnica.com/ai/2025/10/openai-wants-to-make-chatgpt-into-a-universal-app-frontend/").text
+
+    soup = BeautifulSoup(page, "html.parser")
+    paragraphs = soup.find_all("p")
+    page_text = ""
+
+    for line in paragraphs:
+        page_text += line.text
+
+    with open("Web_data.txt", "w", encoding="utf-8") as f:
+        f.write(page_text)
+
+    def get_response(query):
+        response: ChatResponse = chat(model="gemma3:1b", messages=[
+            {
+            "role": "user",
+            "content": query,
+            },
+        ]) 
+
+        return response.message.content
+
+    while True:
+        user_input = input("Please Enter your Prompt: \n")
+        query = f"""Add these instructions: {injection}
+                    This is the question: {user_input} 
+                    about this webpage: {paragraphs}"""
+        ollama_response = get_response(query)
+        #print(ollama_response)
+        break
+
+    return 0
+
+lesson_7()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+                    Lesson 8 - Bottle Web App
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
