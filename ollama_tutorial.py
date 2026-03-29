@@ -287,6 +287,7 @@ def lesson_9():
                 """
         return page
 
+    # Run on local host
     run(host="127.0.0.1", port="8080")
 
     return 0
